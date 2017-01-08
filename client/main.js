@@ -23,7 +23,7 @@
 //     instance.counter.set(instance.counter.get() + 1);
 //   },
 // });
-
+Images = new Mongo.Collection("images");
 
 var image_data = [
 	{
@@ -41,11 +41,37 @@ var image_data = [
 	{
 		img_src:"4.jpg",
 		img_alt:"Converse"
-	},
-	{
-		img_src:"5.jpg",
-		img_alt:"Converse"
 	}
 ];
 
-Template.images.helpers({images:image_data});
+// Template.images.helpers({images:image_data});
+
+	console.log(Images.find().count());
+
+Template.images.helpers({
+	images:Images.find({},
+		{
+			sort:{rating:-1}
+		})
+});
+
+
+Template.images.events({
+	'click .js-image ':function(event){
+		alert("Hello n template events");
+	},
+	'click .js-delete-btn' :function(event){
+		var img_id = this._id;
+		console.log(img_id);
+		$("#"+img_id).hide('slow',function(){
+			Images.remove({"_id":img_id});
+		});
+	},
+	'click .js-rating' : function(event){
+		var rating = $(event.currentTarget).data("userrating");
+		console.log(rating);
+		var id = this.id;
+		console.log(id);
+		Images.update({_id:id},{$set: {rating:rating}});
+	}
+});
