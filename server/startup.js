@@ -1,6 +1,5 @@
 Images = new Mongo.Collection("images");
 
-console.log(Meteor.isServer);
 
 if(Meteor.isServer){
 	console.log("I'm a server");
