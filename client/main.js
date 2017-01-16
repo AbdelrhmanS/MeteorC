@@ -55,23 +55,29 @@ Template.images.helpers({
 		})
 });
 
-
 Template.images.events({
 	'click .js-image ':function(event){
 		alert("Hello n template events");
 	},
 	'click .js-delete-btn' :function(event){
 		var img_id = this._id;
-		console.log(img_id);
 		$("#"+img_id).hide('slow',function(){
 			Images.remove({"_id":img_id});
 		});
-	},
-	'click .js-rating' : function(event){
-		var rating = $(event.currentTarget).data("userrating");
-		console.log(rating);
-		var id = this.id;
-		console.log(id);
-		Images.update({_id:id},{$set: {rating:rating}});
 	}
 });
+
+
+Template.rating.onRendered(function() {
+  this.$('.ui.rating')
+      .rating({
+          interactive: true,
+          maxRating: 5,
+          onRate:function(value){
+          	var id = this.id;
+			Images.update({_id:id},{$set: {rating:value}});
+          }
+      });
+  });
+
+

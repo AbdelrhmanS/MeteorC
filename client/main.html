@@ -8,7 +8,9 @@
   {{> images}}
 </div>
 </body>
-
+<template name="rating">
+  <div class="ui rating js-rating"  id="{{_id}}" data-rating="{{rate}}"></div>
+</template>
 <template name="images">
   <div class="row">
     {{#each images}}
@@ -17,7 +19,8 @@
           <img class="js-image" src="{{img_src}}" alt="{{img_alt}}">
           <div class="caption">
           <h2>Rating {{rating}}</h2>
-          {{>starsRating mutable=true class="js-rating" id=_id }}
+          {{> rating }}
+          <br />
           <button class="js-delete-btn btn">Delete</button>
           </div>
         </div>
