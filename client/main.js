@@ -51,7 +51,7 @@ var image_data = [
 Template.images.helpers({
 	images:Images.find({},
 		{
-			sort:{rating:-1}
+			sort:{createdOnd:-1,rating:-1}
 		})
 });
 
@@ -63,10 +63,28 @@ Template.images.events({
 		var img_id = this._id;
 		$("#"+img_id).hide('slow',function(){
 			Images.remove({"_id":img_id});
-		});
+		d	},
+	'click .js-show-modal':function(event){		
+		console.log("test");																																																																																																															
+		$("#add_image").modal('show');
+		$('#add_image').modal({
+		    backdrop: 'static',
+		    keyboard: false
+		})
 	}
 });
-
+Template.add_image.events({
+	'submit .js-add-img':function(event){
+		console.log(event.target.image_src.value +" "+event.target.image_alt.value);
+		Images.insert({
+			img_src:event.target.image_src.value,
+			img_alt:event.target.image_alt.value,
+			createdOn:Date()
+		});
+		$("#add_image").modal('hide');
+		return false;
+	}
+});
 
 Template.rating.onRendered(function() {
   this.$('.ui.rating')
