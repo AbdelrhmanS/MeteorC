@@ -3,15 +3,37 @@
 </head>
 
 <body>
+  {{> add_image}}
   <h1>Welcome to Meteor!</h1>
 <div class="container">
+
   {{> images}}
+  
 </div>
 </body>
+
 <template name="rating">
   <div class="ui rating js-rating"  id="{{_id}}" data-rating="{{rate}}"></div>
 </template>
+<template name="add_image">
+  <div class="modal" id="add_image">
+    <div class="modal-header">
+      <div class="modal-title">Add Image</div>
+    </div>
+    <div class="modal-body">
+      <form class="js-add-img">
+        <input type="text" name="image_src"><br/>
+        <input type="text" name="image_alt"><br/>
+        <button class="btn">Add Image</button>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn  btn-warning" data-dismiss="modal">Cancel</button> 
+    </div>
+  </div>
+</template>
 <template name="images">
+  <button class="btn btn-success js-show-modal">Add Image</button>
   <div class="row">
     {{#each images}}
       <div class="col-xs-6 col-md-4 col-lg-3" id="{{_id}}">
@@ -19,6 +41,8 @@
           <img class="js-image" src="{{img_src}}" alt="{{img_alt}}">
           <div class="caption">
           <h2>Rating {{rating}}</h2>
+          <p>Description : {{img_alt}}</p>
+          <p> Date : {{createdOn}}</p>
           {{> rating }}
           <br />
           <button class="js-delete-btn btn">Delete</button>
@@ -30,12 +54,3 @@
 
 </template>
 
-<template name="info">
-  <h2>Learn Meteor!</h2>
-  <ul>
-    <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
-    <li><a href="http://guide.meteor.com" target="_blank">Follow the Guide</a></li>
-    <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
-    <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
-  </ul>
-</template>
