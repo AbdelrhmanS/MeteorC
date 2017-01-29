@@ -63,14 +63,12 @@ Template.images.events({
 		var img_id = this._id;
 		$("#"+img_id).hide('slow',function(){
 			Images.remove({"_id":img_id});
-		d	},
-	'click .js-show-modal':function(event){		
+		});
+	},
+	'click .js-show-modal' :function(event){		
 		console.log("test");																																																																																																															
 		$("#add_image").modal('show');
-		$('#add_image').modal({
-		    backdrop: 'static',
-		    keyboard: false
-		})
+		// $('#add_image').modal({backdrop: false});
 	}
 });
 Template.add_image.events({
