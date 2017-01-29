@@ -3,9 +3,9 @@
 </head>
 
 <body>
-  {{> add_image}}
   <h1>Welcome to Meteor!</h1>
 <div class="container">
+  {{> add_image}}
 
   {{> images}}
   
@@ -15,23 +15,29 @@
 <template name="rating">
   <div class="ui rating js-rating"  id="{{_id}}" data-rating="{{rate}}"></div>
 </template>
+
 <template name="add_image">
-  <div class="modal" id="add_image">
-    <div class="modal-header">
-      <div class="modal-title">Add Image</div>
-    </div>
-    <div class="modal-body">
-      <form class="js-add-img">
-        <input type="text" name="image_src"><br/>
-        <input type="text" name="image_alt"><br/>
-        <button class="btn">Add Image</button>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button class="btn  btn-warning" data-dismiss="modal">Cancel</button> 
+  <div class="modal fade" id="add_image" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">Add Image</div>
+        </div>
+        <div class="modal-body">
+          <form class="js-add-img">
+            <input type="text" name="image_src"><br/>
+            <input type="text" name="image_alt"><br/>
+            <button class="btn">Add Image</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn  btn-warning" data-dismiss="modal">Cancel</button> 
+        </div>
+      </div>
     </div>
   </div>
 </template>
+
 <template name="images">
   <button class="btn btn-success js-show-modal">Add Image</button>
   <div class="row">
