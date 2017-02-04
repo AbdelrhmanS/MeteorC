@@ -48,11 +48,39 @@ var image_data = [
 
 	console.log(Images.find().count());
 
+Accounts.ui.config({
+	passwordSignupFields:"USERNAME_AND_EMAIL"
+});
+
+
 Template.images.helpers({
-	images:Images.find({},
+	images:function(){
+		if(Session.get('userFilter')){
+			return Images.find({createdBy:Session.get('userFilter')},{sort:{createdOnd:-1,rating:-1}});
+		}else
 		{
-			sort:{createdOnd:-1,rating:-1}
-		})
+			return Images.find({},{sort:{createdOnd:-1,rating:-1}});
+		}
+	},
+	getUser:function(user_id){
+		var userName = Meteor.users.findOne({_id:user_id})
+		if(userName){
+			return userName.username;
+		}else
+			return "AnyOne";
+	}
+});
+
+
+Template.body.helpers({
+username:function(){
+	if(Meteor.user())
+	{
+		return Meteor.user().username;
+	}else{
+		return "AnyOne";
+	}
+}
 });
 
 Template.images.events({
@@ -66,20 +94,29 @@ Template.images.events({
 		});
 	},
 	'click .js-show-modal' :function(event){		
-		console.log("test");																																																																																																															
 		$("#add_image").modal('show');
-		// $('#add_image').modal({backdrop: false});
+	},
+	'click .js-get-images' :function(event){		
+		Session.set('userFilter',this.createdBy);
+		console.log(Session.get('userFilter'));
+		return false;
+
 	}
 });
 Template.add_image.events({
 	'submit .js-add-img':function(event){
 		console.log(event.target.image_src.value +" "+event.target.image_alt.value);
-		Images.insert({
-			img_src:event.target.image_src.value,
-			img_alt:event.target.image_alt.value,
-			createdOn:Date()
-		});
-		$("#add_image").modal('hide');
+		// var un = Meteor.user().username; esay way to get name 
+		// console.log(un);
+		if(Meteor.user()){
+			Images.insert({
+				img_src:event.target.image_src.value,
+				img_alt:event.target.image_alt.value,
+				createdOn:Date(),
+				createdBy:Meteor.user()._id
+			});
+		}
+			$("#add_image").modal('hide');
 		return false;
 	}
 });
