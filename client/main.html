@@ -3,8 +3,14 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+<nav>
+  <div class="container">
+    {{> loginButtons}}
+  </div>
+</nav>
 <div class="container">
+  <h1>Welcome to Meteor! {{username}}</h1>
+
   {{> add_image}}
 
   {{> images}}
@@ -25,7 +31,7 @@
         </div>
         <div class="modal-body">
           <form class="js-add-img">
-            <input type="text" name="image_src"><br/>
+            <input type="text" name="image_src" required="required"><br/>
             <input type="text" name="image_alt"><br/>
             <button class="btn">Add Image</button>
           </form>
@@ -39,16 +45,21 @@
 </template>
 
 <template name="images">
+{{#if currentUser}}
+
   <button class="btn btn-success js-show-modal">Add Image</button>
+  {{/if}}
   <div class="row">
     {{#each images}}
       <div class="col-xs-6 col-md-4 col-lg-3" id="{{_id}}">
         <div href="#" class="thumbnail">
-          <img class="js-image" src="{{img_src}}" alt="{{img_alt}}">
+          <img class="js-image thumbnail-img" src="{{img_src}}" alt="{{img_alt}}">
           <div class="caption">
           <h2>Rating {{rating}}</h2>
           <p>Description : {{img_alt}}</p>
           <p> Date : {{createdOn}}</p>
+          <p> Created By : <a href="" class="js-get-images" >{{getUser createdBy}}</a></p>
+
           {{> rating }}
           <br />
           <button class="js-delete-btn btn">Delete</button>
